@@ -32,14 +32,14 @@ public class Elevator {
         // MODE SETUP //
         mode = ElevatorMode.AUTO;
 
-        leftElevator.setTargetPosition(0);
-        rightElevator.setTargetPosition(0);
+//        leftElevator.setTargetPosition(0);
+//        rightElevator.setTargetPosition(0);
+//
+//        leftElevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightElevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftElevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightElevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 

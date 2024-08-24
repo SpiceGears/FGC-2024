@@ -25,36 +25,9 @@ public class RobotAteny extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
 
-            //drivetrain.drive(drive, turn);
+            drivetrain.drive(drive, turn);
 
             // ELEVATOR SUBSYSTEM //
-
-            //switch modes
-//            if(gamepad1.share) {
-//
-//                if(elevator.getMode() == ElevatorMode.MANUAL)
-//                    elevator.setMode(ElevatorMode.AUTO);
-//
-//                else if(elevator.getMode() == ElevatorMode.AUTO)
-//                    elevator.setMode(ElevatorMode.MANUAL);
-//
-//                //gamepad1.rumble(1000);
-//            }
-
-//            if(gamepad1.a) {
-//                elevator.setPosition(1000);
-//            }
-//
-//            if(gamepad1.b) {
-//                elevator.setPosition(0);
-//            }
-//
-//            if(gamepad1.x) {
-//                elevator.setMode(ElevatorMode.MANUAL);
-//                elevator.setPosition(0);
-//            }
-//
-//            elevator.setPower(Constants.elevatorAutoSpeed);
 
             // manual control
             if(elevator.getMode() == ElevatorMode.MANUAL) {
@@ -80,8 +53,10 @@ public class RobotAteny extends LinearOpMode {
                     elevator.setPosition(Constants.elevatorFourLevel);
                 }
 
+                elevator.setPower(Constants.elevatorAutoSpeed);
             }
 
+            // switch elevator control
             if(gamepad2.right_bumper) {
                 elevator.setMode(ElevatorMode.MANUAL);
             }
