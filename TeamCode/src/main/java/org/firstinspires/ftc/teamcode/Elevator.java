@@ -52,7 +52,7 @@ public class Elevator {
 
     public void setManualPower(double left, double right) {
         leftElevator.setPower(left);
-        rightElevator.setPower(right);
+        rightElevator.setPower(left);
 
         leftElevator.setTargetPosition(leftElevator.getCurrentPosition());
         rightElevator.setTargetPosition(rightElevator.getCurrentPosition());
