@@ -2,12 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.RobotLog;
+
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name="RobotAteny", group="Linear Opmode")
 public class RobotAteny extends LinearOpMode {
 
     private final Drivetrain drivetrain = new Drivetrain(this);
     private final Elevator elevator = new Elevator(this);
+    private final Logs log = new Logs(telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -15,6 +20,7 @@ public class RobotAteny extends LinearOpMode {
         // SUBSYSTEMS INIT //
         drivetrain.init();
         elevator.init();
+        log.init();
 
         waitForStart();
 
@@ -67,18 +73,24 @@ public class RobotAteny extends LinearOpMode {
 //            elevator.setLeftPower(-gamepad1.left_stick_y);
 //            elevator.setRightPower(-gamepad1.right_stick_x);
 
-
-            telemetry.addData("prawa pozycja", elevator.getRightPosition());
-            telemetry.addData("lewa pozycja", elevator.getLeftPosition());
-            telemetry.addData("button A", gamepad1.a);
-            telemetry.addData("button B", gamepad1.b);
-            telemetry.addData("button X", gamepad1.x);
-            telemetry.addData("ElevatorMode", elevator.getMode());
-            telemetry.update();
-
-
+            log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
+            log.send();
 
         }
 
+    }
+
+    void sendTelemetry() {
+
+        log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
+        log.send();
+
+//        telemetry.addData("prawa pozycja", elevator.getRightPosition());
+//        telemetry.addData("lewa pozycja", elevator.getLeftPosition());
+//        telemetry.addData("button A", gamepad1.a);
+//        telemetry.addData("button B", gamepad1.b);
+//        telemetry.addData("button X", gamepad1.x);
+//        telemetry.addData("ElevatorMode", elevator.getMode());
+//        telemetry.update();
     }
 }
