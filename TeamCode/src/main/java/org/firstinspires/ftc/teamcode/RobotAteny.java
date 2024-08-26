@@ -69,6 +69,13 @@ public class RobotAteny extends LinearOpMode {
             if(gamepad2.left_bumper) {
                 elevator.setMode(ElevatorMode.AUTO);
             }
+            if(gamepad2.share) {
+                elevator.resetEncoder();
+                elevator.setMode(ElevatorMode.MANUAL);
+            }
+
+            elevator.checkMotors();
+            elevator.checkSensors();
 
 //            elevator.setLeftPower(-gamepad1.left_stick_y);
 //            elevator.setRightPower(-gamepad1.right_stick_x);

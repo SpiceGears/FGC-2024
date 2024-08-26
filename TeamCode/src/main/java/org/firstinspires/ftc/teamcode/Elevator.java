@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.text.method.Touch;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class Elevator {
 
@@ -10,6 +13,8 @@ public class Elevator {
     private DcMotor leftElevator;
     private DcMotor rightElevator;
     private ElevatorMode mode;
+    private TouchSensor leftTouch;
+    private TouchSensor rightTouch;
 
     public Elevator(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -19,6 +24,8 @@ public class Elevator {
         // MOTORS SETUP //
         leftElevator = opMode.hardwareMap.get(DcMotor.class, "leftElevator");
         rightElevator = opMode.hardwareMap.get(DcMotor.class, "rightElevator");
+        leftTouch = opMode.hardwareMap.get(TouchSensor.class, "leftTouch");
+        rightTouch = opMode.hardwareMap.get(TouchSensor.class, "rightTouch");
 
         leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -48,6 +55,20 @@ public class Elevator {
         rightElevator.setTargetPosition(position);
         setMode(ElevatorMode.AUTO);
         //setPower(Constants.elevatorAutoSpeed);
+    }
+
+    public void checkMotors() {
+        if(leftElevator.isBusy()) {
+            if(Math.abs(leftElevator.getCurrentPosition() - leftElevator.getTargetPosition()) < 10) {
+                leftElevator.setPower(0);
+            }
+        }
+
+        if(rightElevator.isBusy()) {
+            if(Math.abs(rightElevator.getCurrentPosition() - rightElevator.getTargetPosition()) < 10) {
+                rightElevator.setPower(0);
+            }
+        }
     }
 
     public void setManualPower(double left, double right) {
@@ -89,6 +110,20 @@ public class Elevator {
 
     public int getLeftPosition() {
         return leftElevator.getCurrentPosition();
+    }
+
+    public void resetEncoder() {
+        leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public  void checkSensors(){
+        if (!leftTouch.isPressed()){
+            leftElevator.setPower(0);
+        }
+        if (!rightTouch.isPressed()){
+            rightElevator.setPower(0);
+        }
+
     }
 
 }
