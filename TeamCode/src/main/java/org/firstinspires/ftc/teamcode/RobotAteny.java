@@ -74,20 +74,25 @@ public class RobotAteny extends LinearOpMode {
                 elevator.setMode(ElevatorMode.MANUAL);
             }
 
-            elevator.checkMotors();
+//            elevator.checkMotors();
             elevator.checkSensors();
 
 //            elevator.setLeftPower(-gamepad1.left_stick_y);
 //            elevator.setRightPower(-gamepad1.right_stick_x);
 
             log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
+            log.addLine("lewa pozycja", elevator.getLeftPosition(),"blue");
+            log.addLine("prawy touch", elevator.getRightTouchState());
+            log.addLine("lewy touch", elevator.getLeftTouchState());
+            log.addLine("elevator Mode",elevator.getMode());
+            log.addLine("silniki", elevator.getMotors());
             log.send();
 
         }
 
     }
 
-    void sendTelemetry() {
+/*    void sendTelemetry() {
 
         log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
         log.send();
@@ -100,4 +105,6 @@ public class RobotAteny extends LinearOpMode {
 //        telemetry.addData("ElevatorMode", elevator.getMode());
 //        telemetry.update();
     }
+
+ */
 }

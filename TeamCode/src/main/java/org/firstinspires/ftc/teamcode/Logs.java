@@ -20,6 +20,9 @@ public class Logs {
 
         telemetry.addData(caption, text);
     }
+    public void addLine(String caption, Object line){
+        telemetry.addData(caption,line);
+    }
 
     public void send() {
         telemetry.update();
