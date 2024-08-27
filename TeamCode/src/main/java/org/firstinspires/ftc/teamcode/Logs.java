@@ -1,17 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Logs {
 
-    private final Telemetry telemetry;
-    private StringBuilder builder;
+    private Telemetry telemetry;
 
     public Logs(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
 
     public void init() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);
     }
 
