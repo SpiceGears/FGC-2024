@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Elevator;
+import org.firstinspires.ftc.teamcode.subsystems.Logs;
+import org.firstinspires.ftc.teamcode.utils.Constants;
+import org.firstinspires.ftc.teamcode.utils.ElevatorMode;
 
 @TeleOp(name="RobotAteny", group="Linear Opmode")
 public class RobotAteny extends LinearOpMode {
@@ -32,6 +34,12 @@ public class RobotAteny extends LinearOpMode {
             double turn = gamepad1.right_stick_x;
 
             drivetrain.drive(drive, turn);
+
+            if(gamepad1.right_bumper) {
+                drivetrain.setSpeedModifier(0.5);
+            } else {
+                drivetrain.setSpeedModifier(1.0);
+            }
 
             // ELEVATOR SUBSYSTEM //
 
@@ -75,17 +83,23 @@ public class RobotAteny extends LinearOpMode {
             }
 
 //            elevator.checkMotors();
-            elevator.checkSensors();
+            //elevator.check();
+            //elevator.checkSensors();
+            double batteryVoltage = hardwareMap.voltageSensor.iterator().next().getVoltage();
 
 //            elevator.setLeftPower(-gamepad1.left_stick_y);
 //            elevator.setRightPower(-gamepad1.right_stick_x);
-
             log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
             log.addLine("lewa pozycja", elevator.getLeftPosition(),"blue");
             log.addLine("prawy touch", elevator.getRightTouchState());
             log.addLine("lewy touch", elevator.getLeftTouchState());
             log.addLine("elevator Mode",elevator.getMode());
             log.addLine("silniki", elevator.getMotors());
+            log.addLine("mode", elevator.getMotorsMode());
+            log.addLine("speedModifier", drivetrain.getSpeedModifier(), "green");
+            log.addLine("bateria", batteryVoltage);
+            log.addLine("driveLeftPower", drivetrain.getLeftPower());
+            log.addLine("driveRightPower", drivetrain.getRightPower());
             log.send();
 
         }
