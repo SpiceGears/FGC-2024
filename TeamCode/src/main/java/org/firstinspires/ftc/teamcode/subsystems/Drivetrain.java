@@ -24,10 +24,10 @@ public class Drivetrain {
     }
 
     public void init() {
-        frontLeftDrive = opMode.hardwareMap.get(DcMotor.class, Constants.frontLeftDriveMotor);
-        frontRightDrive = opMode.hardwareMap.get(DcMotor.class, Constants.frontRightDriveMotor);
-        rearLeftDrive = opMode.hardwareMap.get(DcMotor.class, Constants.rearLeftDriveMotor);
-        rearRightDrive = opMode.hardwareMap.get(DcMotor.class, Constants.rearRightDriveMotor);
+        frontLeftDrive = opMode.hardwareMap.get(DcMotor.class, Constants.Drivetrain.frontLeftDriveMotor);
+        frontRightDrive = opMode.hardwareMap.get(DcMotor.class, Constants.Drivetrain.frontRightDriveMotor);
+        rearLeftDrive = opMode.hardwareMap.get(DcMotor.class, Constants.Drivetrain.rearLeftDriveMotor);
+        rearRightDrive = opMode.hardwareMap.get(DcMotor.class, Constants.Drivetrain.rearRightDriveMotor);
 
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -43,8 +43,10 @@ public class Drivetrain {
 
     public void drive(double drive, double turn) {
 
-        leftPower = Range.clip(drive + turn, -Constants.maxDriveSpeed, Constants.maxDriveSpeed) * speedModifier;
-        rightPower = Range.clip(drive - turn, -Constants.maxDriveSpeed, Constants.maxDriveSpeed) * speedModifier;
+        leftPower = Range.clip(drive + turn, -Constants.Drivetrain.maxDriveSpeed,
+                Constants.Drivetrain.maxDriveSpeed) * speedModifier;
+        rightPower = Range.clip(drive - turn, -Constants.Drivetrain.maxDriveSpeed,
+                Constants.Drivetrain.maxDriveSpeed) * speedModifier;
 
         frontLeftDrive.setPower(leftPower);
         frontRightDrive.setPower(rightPower);

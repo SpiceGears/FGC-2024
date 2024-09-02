@@ -18,12 +18,14 @@ public class Logs {
         telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);
     }
 
-    public void addLine(String caption, Object line, String color) {
+    public void addLine(String caption, Object line, boolean show, String color) {
+        if(!show) return;
         String text = "<font color='" + color + "'>" + line + "</font>";
 
         telemetry.addData(caption, text);
     }
-    public void addLine(String caption, Object line){
+    public void addLine(String caption, Object line, boolean show){
+        if(!show) return;
         telemetry.addData(caption,line);
     }
 

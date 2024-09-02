@@ -55,19 +55,19 @@ public class RobotAteny extends LinearOpMode {
                     elevator.setPosition(0);
                 }
                 if(gamepad2.cross) {
-                    elevator.setPosition(Constants.elevatorFirstLevel);
+                    elevator.setPosition(Constants.Elevator.elevatorFirstLevel);
                 }
                 if(gamepad2.circle) {
-                    elevator.setPosition(Constants.elevatorSecondLevel);
+                    elevator.setPosition(Constants.Elevator.elevatorSecondLevel);
                 }
                 if(gamepad2.triangle) {
-                    elevator.setPosition(Constants.elevatorThirdLevel);
+                    elevator.setPosition(Constants.Elevator.elevatorThirdLevel);
                 }
                 if(gamepad2.square) {
-                    elevator.setPosition(Constants.elevatorFourLevel);
+                    elevator.setPosition(Constants.Elevator.elevatorFourLevel);
                 }
 
-                elevator.setPower(Constants.elevatorAutoSpeed);
+                elevator.setPower(Constants.Elevator.elevatorAutoSpeed);
             }
 
             // switch elevator control
@@ -85,40 +85,29 @@ public class RobotAteny extends LinearOpMode {
 //            elevator.checkMotors();
             //elevator.check();
             //elevator.checkSensors();
-            double batteryVoltage = hardwareMap.voltageSensor.iterator().next().getVoltage();
-
-//            elevator.setLeftPower(-gamepad1.left_stick_y);
-//            elevator.setRightPower(-gamepad1.right_stick_x);
-            log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
-            log.addLine("lewa pozycja", elevator.getLeftPosition(),"blue");
-            log.addLine("prawy touch", elevator.getRightTouchState());
-            log.addLine("lewy touch", elevator.getLeftTouchState());
-            log.addLine("elevator Mode",elevator.getMode());
-            log.addLine("silniki", elevator.getMotors());
-            log.addLine("mode", elevator.getMotorsMode());
-            log.addLine("speedModifier", drivetrain.getSpeedModifier(), "green");
-            log.addLine("bateria", batteryVoltage);
-            log.addLine("driveLeftPower", drivetrain.getLeftPower());
-            log.addLine("driveRightPower", drivetrain.getRightPower());
-            log.send();
+            sendTelemetry();
 
         }
 
     }
 
-/*    void sendTelemetry() {
+    void sendTelemetry() {
+        log.addLine("ElevatorLeftPosition", elevator.getLeftPosition(), Constants.Logs.showElevatorPositions);
+        log.addLine("ElevatorRightPosition", elevator.getRightPosition(), Constants.Logs.showElevatorPositions);
+        log.addLine("ElevatorLeftSensor", elevator.getRightTouchState(), Constants.Logs.showElevatorSensors);
+        log.addLine("ElevatorRightSensor", elevator.getRightTouchState(), Constants.Logs.showElevatorSensors);
+        log.addLine("ElevatorMode", elevator.getMode(), Constants.Logs.showElevatorMode);
+        log.addLine("ElevatorMotorModes", elevator.getMotorsMode(), Constants.Logs.showElevatorMotorModes);
+        log.addLine("ElevatorMotorState", elevator.getMotors(), Constants.Logs.showElevatorMotorPower);
 
-        log.addLine("prawa pozycja", elevator.getRightPosition(), "red");
+        log.addLine("DriveLeftPower", drivetrain.getLeftPower(), Constants.Logs.showDrivetrainMotorPower);
+        log.addLine("DriveRightPower", drivetrain.getRightPower(), Constants.Logs.showDrivetrainMotorPower);
+
+        log.addLine("DriveSpeedModifier", drivetrain.getSpeedModifier(), Constants.Logs.showSpeedModifier);
+
+        log.addLine("BatteryVoltage", hardwareMap.voltageSensor.iterator().next().getVoltage(),
+                Constants.Logs.showBatteryVoltage);
+
         log.send();
-
-//        telemetry.addData("prawa pozycja", elevator.getRightPosition());
-//        telemetry.addData("lewa pozycja", elevator.getLeftPosition());
-//        telemetry.addData("button A", gamepad1.a);
-//        telemetry.addData("button B", gamepad1.b);
-//        telemetry.addData("button X", gamepad1.x);
-//        telemetry.addData("ElevatorMode", elevator.getMode());
-//        telemetry.update();
     }
-
- */
 }
