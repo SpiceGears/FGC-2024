@@ -41,15 +41,6 @@ public class Elevator {
         // MODE SETUP //
         mode = ElevatorMode.MANUAL;
 
-//        leftElevator.setTargetPosition(0);
-//        rightElevator.setTargetPosition(0);
-//
-//        leftElevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        rightElevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-//        leftElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     public void setPosition(int position) {
@@ -161,7 +152,7 @@ public class Elevator {
 
     public  boolean getRightTouchState(){
         return  false;
-    }
+    } //todo
 
     public String getMotors(){
         return leftElevator.isBusy() + " | " + rightElevator.isBusy() + " | " + leftElevator.getCurrent(CurrentUnit.AMPS) + " | "+ rightElevator.getCurrent(CurrentUnit.AMPS);

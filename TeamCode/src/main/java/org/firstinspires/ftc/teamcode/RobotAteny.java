@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.subsystems.Bucket;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
 import org.firstinspires.ftc.teamcode.subsystems.Logs;
@@ -15,6 +16,7 @@ public class RobotAteny extends LinearOpMode {
     private final Drivetrain drivetrain = new Drivetrain(this);
     private final Elevator elevator = new Elevator(this);
     private final Logs log = new Logs(telemetry);
+    private final Bucket bucket = new Bucket(this);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,6 +25,7 @@ public class RobotAteny extends LinearOpMode {
         drivetrain.init();
         elevator.init();
         log.init();
+        bucket.init();
 
         waitForStart();
 
@@ -82,6 +85,24 @@ public class RobotAteny extends LinearOpMode {
                 elevator.setMode(ElevatorMode.MANUAL);
             }
 
+            if(gamepad1.right_trigger > 0.2) {
+                bucket.setMotorPower(-gamepad1.right_trigger);
+            }
+            else if(gamepad1.left_trigger > 0.2) {
+                bucket.setMotorPower(gamepad1.left_trigger);
+            } else {
+                bucket.setMotorPower(0);
+            }
+
+            if(gamepad1.triangle) {
+                bucket.setServoPower(1.0);
+            }
+            else if(gamepad1.cross) {
+                bucket.setServoPower(-1.0);
+            } else {
+                bucket.setServoPower(0.0);
+            }
+
 //            elevator.checkMotors();
             //elevator.check();
             //elevator.checkSensors();
@@ -94,7 +115,7 @@ public class RobotAteny extends LinearOpMode {
     void sendTelemetry() {
         log.addLine("ElevatorLeftPosition", elevator.getLeftPosition(), Constants.Logs.showElevatorPositions);
         log.addLine("ElevatorRightPosition", elevator.getRightPosition(), Constants.Logs.showElevatorPositions);
-        log.addLine("ElevatorLeftSensor", elevator.getRightTouchState(), Constants.Logs.showElevatorSensors);
+        log.addLine("ElevatorLeftSensor", elevator.getLeftTouchState(), Constants.Logs.showElevatorSensors);
         log.addLine("ElevatorRightSensor", elevator.getRightTouchState(), Constants.Logs.showElevatorSensors);
         log.addLine("ElevatorMode", elevator.getMode(), Constants.Logs.showElevatorMode);
         log.addLine("ElevatorMotorModes", elevator.getMotorsMode(), Constants.Logs.showElevatorMotorModes);
