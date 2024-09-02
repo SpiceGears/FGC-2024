@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.utils.Constants;
 
 public class Drivetrain {
 
@@ -12,6 +14,9 @@ public class Drivetrain {
     private DcMotor frontRightDrive;
     private DcMotor rearLeftDrive;
     private DcMotor rearRightDrive;
+    private double speedModifier;
+    private double leftPower;
+    private double rightPower;
 
 
     public Drivetrain(LinearOpMode opMode) {
@@ -30,13 +35,16 @@ public class Drivetrain {
         rearRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         rearRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        speedModifier = 1.0;
     }
 
     public void drive(double drive, double turn) {
 
-        double leftPower = Range.clip(drive + turn, -Constants.maxDriveSpeed, Constants.maxDriveSpeed);
-        double rightPower = Range.clip(drive - turn, -Constants.maxDriveSpeed, Constants.maxDriveSpeed);
+        leftPower = Range.clip(drive + turn, -Constants.maxDriveSpeed, Constants.maxDriveSpeed) * speedModifier;
+        rightPower = Range.clip(drive - turn, -Constants.maxDriveSpeed, Constants.maxDriveSpeed) * speedModifier;
 
         frontLeftDrive.setPower(leftPower);
         frontRightDrive.setPower(rightPower);
@@ -44,5 +52,16 @@ public class Drivetrain {
         rearRightDrive.setPower(rightPower);
 
     }
+
+    public void setSpeedModifier(double modifier) {
+        this.speedModifier = modifier;
+    }
+
+    public double getSpeedModifier() {
+        return speedModifier;
+    }
+
+    public double getLeftPower() { return leftPower; }
+    public double getRightPower() { return rightPower; }
 
 }

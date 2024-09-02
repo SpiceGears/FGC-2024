@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.utils.ElevatorMode;
 
 public class Elevator {
 
@@ -26,8 +26,8 @@ public class Elevator {
         // MOTORS SETUP //
         leftElevator = opMode.hardwareMap.get(DcMotorEx.class, "leftElevator");
         rightElevator = opMode.hardwareMap.get(DcMotorEx.class, "rightElevator");
-        leftTouch = opMode.hardwareMap.get(TouchSensor.class, "leftTouch");
-        rightTouch = opMode.hardwareMap.get(TouchSensor.class, "rightTouch");
+        //leftTouch = opMode.hardwareMap.get(TouchSensor.class, "leftTouch");
+        //rightTouch = opMode.hardwareMap.get(TouchSensor.class, "rightTouch");
 
         leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -39,7 +39,7 @@ public class Elevator {
         rightElevator.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // MODE SETUP //
-        mode = ElevatorMode.AUTO;
+        mode = ElevatorMode.MANUAL;
 
 //        leftElevator.setTargetPosition(0);
 //        rightElevator.setTargetPosition(0);
@@ -54,9 +54,9 @@ public class Elevator {
 
     public void setPosition(int position) {
         leftElevator.setTargetPosition(position);
-        leftElevator.setTargetPositionTolerance(20);
+        //leftElevator.setTargetPositionTolerance(20);
         rightElevator.setTargetPosition(position);
-        rightElevator.setTargetPositionTolerance(20);
+        //rightElevator.setTargetPositionTolerance(20);
         setMode(ElevatorMode.AUTO);
         //setPower(Constants.elevatorAutoSpeed);
     }
@@ -144,16 +144,31 @@ public class Elevator {
         }
 
     }
-    public boolean getLeftTouchState(){
-        return leftTouch.isPressed();
+
+    public void check() {
+        if(Math.abs(leftElevator.getTargetPosition() - leftElevator.getCurrentPosition()) <= 20 && leftElevator.getTargetPosition() != leftElevator.getCurrentPosition()) {
+            leftElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            setMode(ElevatorMode.MANUAL);
+        }
+        if(Math.abs(rightElevator.getTargetPosition() - rightElevator.getCurrentPosition()) <= 20 && rightElevator.getTargetPosition() != rightElevator.getCurrentPosition()) {
+            rightElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            setMode(ElevatorMode.MANUAL);
+        }
     }
+    public boolean getLeftTouchState(){
+        return false;
+    } // todo
 
     public  boolean getRightTouchState(){
-        return  rightTouch.isPressed();
+        return  false;
     }
 
     public String getMotors(){
         return leftElevator.isBusy() + " | " + rightElevator.isBusy() + " | " + leftElevator.getCurrent(CurrentUnit.AMPS) + " | "+ rightElevator.getCurrent(CurrentUnit.AMPS);
+    }
+
+    public String getMotorsMode() {
+        return leftElevator.getMode() + " | " + rightElevator.getMode();
     }
 
 
