@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bucket;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
@@ -17,6 +18,7 @@ public class RobotAteny extends LinearOpMode {
     private final Elevator elevator = new Elevator(this);
     private final Logs log = new Logs(telemetry);
     private final Bucket bucket = new Bucket(this);
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,6 +30,8 @@ public class RobotAteny extends LinearOpMode {
         bucket.init();
 
         waitForStart();
+        runtime.reset();
+
 
         while(opModeIsActive()) {
 
@@ -39,10 +43,18 @@ public class RobotAteny extends LinearOpMode {
             drivetrain.drive(drive, turn);
 
             if(gamepad1.right_bumper) {
-                drivetrain.setSpeedModifier(0.5);
-            } else {
                 drivetrain.setSpeedModifier(1.0);
+            } else {
+                drivetrain.setSpeedModifier(0.5);
             }
+
+            if(!(gamepad1.triangle || gamepad1.cross) && runtime.seconds() < 3.5 ) {
+                bucket.setServoPower(1.0);
+            }
+
+//            if(runtime.seconds() > 3.5) {
+//                bucket.setServoPower(0);
+//            }
 
             // ELEVATOR SUBSYSTEM //
 

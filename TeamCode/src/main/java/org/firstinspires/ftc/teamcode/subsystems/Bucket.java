@@ -46,4 +46,9 @@ public class Bucket {
         rightServo.setPower(power);
     }
 
+    public void setIntakePosition() {
+        leftServo.setPower(1.0);
+        rightServo.setPower(1.0);
+    }
+
 }
