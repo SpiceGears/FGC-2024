@@ -12,6 +12,7 @@ public class Bucket {
     private DcMotorEx rightIntake;
     private CRServo leftServo;
     private CRServo rightServo;
+    private boolean isStarting;
 
     public Bucket(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -26,11 +27,13 @@ public class Bucket {
 
         leftServo.setDirection(CRServo.Direction.REVERSE);
         rightServo.setDirection(CRServo.Direction.FORWARD);
+
+        isStarting = false;
     }
 
     public void setMotorPower(double power) {
         leftIntake.setPower(power);
-        rightIntake.setPower(power);
+        rightIntake.setPower(-power);
     }
 
     public double getLeftPower() {
@@ -50,5 +53,8 @@ public class Bucket {
         leftServo.setPower(1.0);
         rightServo.setPower(1.0);
     }
+
+    public boolean isStartingMode() { return isStarting; }
+    public void setIsStarting(boolean mode) { isStarting = mode;}
 
 }

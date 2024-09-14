@@ -32,8 +32,8 @@ public class Constants {
         public static boolean showElevatorPositions = true;
         public static boolean showElevatorSensors = true;
         public static boolean showElevatorMode = true;
-        public static boolean showElevatorMotorPower = false;
-        public static boolean showElevatorMotorModes = false;
+        public static boolean showElevatorMotorPower = true;
+        public static boolean showElevatorMotorModes = true;
 
         public static boolean showSpeedModifier = true;
         public static boolean showDrivetrainMotorPower = true;

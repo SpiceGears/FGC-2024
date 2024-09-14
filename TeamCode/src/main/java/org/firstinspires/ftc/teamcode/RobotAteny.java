@@ -21,7 +21,7 @@ public class RobotAteny extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         // SUBSYSTEMS INIT //
         drivetrain.init();
@@ -31,6 +31,8 @@ public class RobotAteny extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+
+        //bucket.setIsStarting(true);
 
 
         while(opModeIsActive()) {
@@ -43,18 +45,10 @@ public class RobotAteny extends LinearOpMode {
             drivetrain.drive(drive, turn);
 
             if(gamepad1.right_bumper) {
-                drivetrain.setSpeedModifier(1.0);
-            } else {
                 drivetrain.setSpeedModifier(0.5);
+            } else {
+                drivetrain.setSpeedModifier(1.0);
             }
-
-            if(!(gamepad1.triangle || gamepad1.cross) && runtime.seconds() < 3.5 ) {
-                bucket.setServoPower(1.0);
-            }
-
-//            if(runtime.seconds() > 3.5) {
-//                bucket.setServoPower(0);
-//            }
 
             // ELEVATOR SUBSYSTEM //
 
@@ -98,26 +92,32 @@ public class RobotAteny extends LinearOpMode {
             }
 
             if(gamepad1.right_trigger > 0.2) {
-                bucket.setMotorPower(-gamepad1.right_trigger);
+                bucket.setMotorPower(gamepad1.right_trigger);
             }
             else if(gamepad1.left_trigger > 0.2) {
-                bucket.setMotorPower(gamepad1.left_trigger);
+                bucket.setMotorPower(-gamepad1.left_trigger);
             } else {
                 bucket.setMotorPower(0);
             }
+
+
+//            if(runtime.seconds() < 4.0) {
+//                bucket.setServoPower(-1.0);
+//            } else {
+//                bucket.setServoPower(0);
+//            }
 
             if(gamepad1.triangle) {
                 bucket.setServoPower(1.0);
             }
             else if(gamepad1.cross) {
                 bucket.setServoPower(-1.0);
-            } else {
+            }
+            else {
                 bucket.setServoPower(0.0);
             }
 
-//            elevator.checkMotors();
-            //elevator.check();
-            //elevator.checkSensors();
+
             sendTelemetry();
 
         }
@@ -125,6 +125,7 @@ public class RobotAteny extends LinearOpMode {
     }
 
     void sendTelemetry() {
+        log.addLine("Runtime", runtime.seconds(), true);
         log.addLine("ElevatorLeftPosition", elevator.getLeftPosition(), Constants.Logs.showElevatorPositions);
         log.addLine("ElevatorRightPosition", elevator.getRightPosition(), Constants.Logs.showElevatorPositions);
         log.addLine("ElevatorLeftSensor", elevator.getLeftTouchState(), Constants.Logs.showElevatorSensors);

@@ -45,35 +45,9 @@ public class Elevator {
 
     public void setPosition(int position) {
         leftElevator.setTargetPosition(position);
-        //leftElevator.setTargetPositionTolerance(20);
         rightElevator.setTargetPosition(position);
-        //rightElevator.setTargetPositionTolerance(20);
         setMode(ElevatorMode.AUTO);
         //setPower(Constants.elevatorAutoSpeed);
-    }
-/*
-    public void checkMotors() {
-        if(leftElevator.isBusy()) {
-            if(Math.abs(leftElevator.getCurrentPosition() - leftElevator.getTargetPosition()) < 10) {
-                leftElevator.setPower(0);
-            }
-        }
-
-        if(rightElevator.isBusy()) {
-            if(Math.abs(rightElevator.getCurrentPosition() - rightElevator.getTargetPosition()) < 10) {
-                rightElevator.setPower(0);
-            }
-        }
-    }
-*/
-
-    public void checkMotors() {
-        if(!leftElevator.isBusy()) {
-            leftElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-        if(!rightElevator.isBusy()) {
-            rightElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
     }
 
     public void setManualPower(double left, double right) {
@@ -136,7 +110,7 @@ public class Elevator {
 
     }
 
-    public void check() {
+    public void checkIsInTolerance() {
         if(Math.abs(leftElevator.getTargetPosition() - leftElevator.getCurrentPosition()) <= 20 && leftElevator.getTargetPosition() != leftElevator.getCurrentPosition()) {
             leftElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             setMode(ElevatorMode.MANUAL);
