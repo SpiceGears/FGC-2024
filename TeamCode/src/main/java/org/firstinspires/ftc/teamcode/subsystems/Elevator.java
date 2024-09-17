@@ -50,7 +50,7 @@ public class Elevator {
         //setPower(Constants.elevatorAutoSpeed);
     }
 
-    public void setManualPower(double left, double right) {
+    public void setManualPower(double left) {
         leftElevator.setPower(left);
         rightElevator.setPower(left);
 

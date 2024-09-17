@@ -18,7 +18,7 @@ public class RobotAteny extends LinearOpMode {
     private final Elevator elevator = new Elevator(this);
     private final Logs log = new Logs(telemetry);
     private final Bucket bucket = new Bucket(this);
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -32,7 +32,7 @@ public class RobotAteny extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        //bucket.setIsStarting(true);
+        bucket.setIsStarting(true);
 
 
         while(opModeIsActive()) {
@@ -54,7 +54,7 @@ public class RobotAteny extends LinearOpMode {
 
             // manual control
             if(elevator.getMode() == ElevatorMode.MANUAL) {
-                elevator.setManualPower(-gamepad2.left_stick_y, -gamepad2.right_stick_y);
+                elevator.setManualPower(-gamepad2.left_stick_y);
             }
 
             // auto control
@@ -91,6 +91,10 @@ public class RobotAteny extends LinearOpMode {
                 elevator.setMode(ElevatorMode.MANUAL);
             }
 
+
+            //elevator.checkIsInTolerance(); WYWALIC TO
+
+
             if(gamepad1.right_trigger > 0.2) {
                 bucket.setMotorPower(gamepad1.right_trigger);
             }
@@ -100,21 +104,23 @@ public class RobotAteny extends LinearOpMode {
                 bucket.setMotorPower(0);
             }
 
-
-//            if(runtime.seconds() < 4.0) {
-//                bucket.setServoPower(-1.0);
-//            } else {
-//                bucket.setServoPower(0);
-//            }
-
-            if(gamepad1.triangle) {
-                bucket.setServoPower(1.0);
-            }
-            else if(gamepad1.cross) {
-                bucket.setServoPower(-1.0);
-            }
-            else {
-                bucket.setServoPower(0.0);
+            if(bucket.isStartingMode()) {
+                if(runtime.seconds() < 4.0) {
+                    //bucket.setServoPower(1.0); //dziala
+                } else {
+                    bucket.setServoPower(0);
+                    bucket.setIsStarting(false);
+                }
+            } else {
+                if(gamepad1.triangle) {
+                    bucket.setServoPower(1.0);
+                }
+                else if(gamepad1.cross) {
+                    bucket.setServoPower(-1.0);
+                }
+                else {
+                    bucket.setServoPower(0.0);
+                }
             }
 
 
@@ -125,6 +131,8 @@ public class RobotAteny extends LinearOpMode {
     }
 
     void sendTelemetry() {
+        log.addLine("Starting Mode", bucket.isStartingMode());
+        log.addLine("Robot Velocity (m/s)", Math.round(drivetrain.getCurrentVelocity(runtime.seconds()) * 100.0) / 100.0, true);
         log.addLine("Runtime", runtime.seconds(), true);
         log.addLine("ElevatorLeftPosition", elevator.getLeftPosition(), Constants.Logs.showElevatorPositions);
         log.addLine("ElevatorRightPosition", elevator.getRightPosition(), Constants.Logs.showElevatorPositions);

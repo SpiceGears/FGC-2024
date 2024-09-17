@@ -19,11 +19,13 @@ public class Constants {
     @Config
     public static class Drivetrain {
         public static double maxDriveSpeed = 1.0; // < 0.1 ; 1.0 >
+        public static double accelerationCoefficient = 0.2;
+        public static double decelerationCoefficient = 0.2;
 
-        public static String frontLeftDriveMotor = "frontLeftDrive";
-        public static String frontRightDriveMotor = "frontRightDrive";
-        public static String rearLeftDriveMotor = "rearLeftDrive";
-        public static String rearRightDriveMotor = "rearRightDrive";
+        static double gearbox = 3 * 5;
+        static double distance = 100; // 1 meter
+        static double wheelPerimeter = 9;
+        public static double meterTicks = (4 * gearbox * distance) / wheelPerimeter;
     }
 
     // LOGS

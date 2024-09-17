@@ -33,7 +33,7 @@ public class Bucket {
 
     public void setMotorPower(double power) {
         leftIntake.setPower(power);
-        rightIntake.setPower(-power);
+        rightIntake.setPower(power);
     }
 
     public double getLeftPower() {
@@ -47,11 +47,6 @@ public class Bucket {
     public void setServoPower(double power) {
         leftServo.setPower(power);
         rightServo.setPower(power);
-    }
-
-    public void setIntakePosition() {
-        leftServo.setPower(1.0);
-        rightServo.setPower(1.0);
     }
 
     public boolean isStartingMode() { return isStarting; }
