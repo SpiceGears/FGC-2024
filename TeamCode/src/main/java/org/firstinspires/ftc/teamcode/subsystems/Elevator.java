@@ -26,8 +26,8 @@ public class Elevator {
         // MOTORS SETUP //
         leftElevator = opMode.hardwareMap.get(DcMotorEx.class, "leftElevator");
         rightElevator = opMode.hardwareMap.get(DcMotorEx.class, "rightElevator");
-        //leftTouch = opMode.hardwareMap.get(TouchSensor.class, "leftTouch");
-        //rightTouch = opMode.hardwareMap.get(TouchSensor.class, "rightTouch");
+        leftTouch = opMode.hardwareMap.get(TouchSensor.class, "leftTouch");
+        rightTouch = opMode.hardwareMap.get(TouchSensor.class, "rightTouch");
 
         leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -98,13 +98,27 @@ public class Elevator {
     public  void checkSensors(){
         if(mode == ElevatorMode.MANUAL) return;
         if (leftTouch.isPressed()){
-       //     leftElevator.setPower(0);
-        //    leftElevator.setMotorDisable();
+            leftElevator.setPower(0);
+            leftElevator.setMotorDisable();
             leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
         if (rightTouch.isPressed()){
-     //       rightElevator.setPower(0);
-        //    rightElevator.setMotorDisable();
+            rightElevator.setPower(0);
+            rightElevator.setMotorDisable();
+            rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+
+    }
+    public void setLimit() {
+        if(mode == ElevatorMode.MANUAL) return;
+        if(leftElevator.getCurrentPosition == null) {
+            leftElevator.setPower(0);
+            leftElevator.setMotorDisable();
+            leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        if(rightElevator.getCurrentPosition == null) {
+            rightElevator.setPower(0);
+            rightElevator.setMotorDisable();
             rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
