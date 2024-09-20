@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.subsystems.Balance;
 import org.firstinspires.ftc.teamcode.subsystems.Bucket;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
@@ -19,6 +20,7 @@ public class RobotAteny extends LinearOpMode {
     private final Logs log = new Logs(telemetry);
     private final Bucket bucket = new Bucket(this);
     private final ElapsedTime runtime = new ElapsedTime();
+    private final Balance balance = new Balance();
 
     @Override
     public void runOpMode() {
@@ -92,14 +94,14 @@ public class RobotAteny extends LinearOpMode {
             }
 
 
-            //elevator.checkIsInTolerance(); WYWALIC TO
+            elevator.checkIsInTolerance();
 
 
-            if(gamepad1.right_trigger > 0.2) {
-                bucket.setMotorPower(gamepad1.right_trigger);
+            if(gamepad1.right_trigger > 0.2 || gamepad2.right_trigger > 0.2) {
+                bucket.setMotorPower(-1.0);
             }
-            else if(gamepad1.left_trigger > 0.2) {
-                bucket.setMotorPower(-gamepad1.left_trigger);
+            else if(gamepad1.left_trigger > 0.2 || gamepad2.left_trigger > 0.2) {
+                bucket.setMotorPower(1.0);
             } else {
                 bucket.setMotorPower(0);
             }
@@ -112,15 +114,25 @@ public class RobotAteny extends LinearOpMode {
                     bucket.setIsStarting(false);
                 }
             } else {
-                if(gamepad1.triangle) {
+                if(gamepad1.triangle || gamepad2.dpad_up) {
                     bucket.setServoPower(1.0);
                 }
-                else if(gamepad1.cross) {
+                else if(gamepad1.cross || gamepad2.dpad_down) {
                     bucket.setServoPower(-1.0);
                 }
                 else {
                     bucket.setServoPower(0.0);
                 }
+            }
+
+            // BALANCE SUBSYSTEM //
+
+            //switching balance
+            if(gamepad2.dpad_left) {
+                balance.setServoPower(1.0);
+            }
+             else if(gamepad2.dpad_right) {
+                balance.setServoPower(-1.0);
             }
 
 
@@ -149,6 +161,7 @@ public class RobotAteny extends LinearOpMode {
 
         log.addLine("BatteryVoltage", hardwareMap.voltageSensor.iterator().next().getVoltage(),
                 Constants.Logs.showBatteryVoltage);
+
 
         log.send();
     }

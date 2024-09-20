@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.ElevatorMode;
 
 public class Elevator {
@@ -111,12 +112,12 @@ public class Elevator {
     }
     public void setLimit() {
         if(mode == ElevatorMode.MANUAL) return;
-        if(leftElevator.getCurrentPosition == null) {
+        if(leftElevator.getCurrentPosition() == Constants.Elevator.maxPosition) {
             leftElevator.setPower(0);
             leftElevator.setMotorDisable();
             leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
-        if(rightElevator.getCurrentPosition == null) {
+        if(rightElevator.getCurrentPosition() == Constants.Elevator.maxPosition) {
             rightElevator.setPower(0);
             rightElevator.setMotorDisable();
             rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -125,22 +126,27 @@ public class Elevator {
     }
 
     public void checkIsInTolerance() {
-        if(Math.abs(leftElevator.getTargetPosition() - leftElevator.getCurrentPosition()) <= 20 && leftElevator.getTargetPosition() != leftElevator.getCurrentPosition()) {
-            leftElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            setMode(ElevatorMode.MANUAL);
-        }
-        if(Math.abs(rightElevator.getTargetPosition() - rightElevator.getCurrentPosition()) <= 20 && rightElevator.getTargetPosition() != rightElevator.getCurrentPosition()) {
-            rightElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            setMode(ElevatorMode.MANUAL);
+        if(mode == ElevatorMode.MANUAL) {
+            if(leftElevator.getCurrentPosition() >= Constants.Elevator.maxPosition || rightElevator.getCurrentPosition() >= Constants.Elevator.maxPosition) {
+                leftElevator.setPower(0);
+                rightElevator.setPower(0);
+            }
+        } else {
+            if(Math.abs(leftElevator.getTargetPosition() - leftElevator.getCurrentPosition()) <= 20 && leftElevator.getTargetPosition() != leftElevator.getCurrentPosition()) {
+                //leftElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                setMode(ElevatorMode.MANUAL);
+            }
+            if(Math.abs(rightElevator.getTargetPosition() - rightElevator.getCurrentPosition()) <= 20 && rightElevator.getTargetPosition() != rightElevator.getCurrentPosition()) {
+                //rightElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                setMode(ElevatorMode.MANUAL);
+            }
         }
     }
     public boolean getLeftTouchState(){
-        return false;
+        return leftTouch.isPressed();
     } // todo
 
-    public  boolean getRightTouchState(){
-        return  false;
-    } //todo
+    public  boolean getRightTouchState(){return rightTouch.isPressed();} //todo
 
     public String getMotors(){
         return leftElevator.isBusy() + " | " + rightElevator.isBusy() + " | " + leftElevator.getCurrent(CurrentUnit.AMPS) + " | "+ rightElevator.getCurrent(CurrentUnit.AMPS);

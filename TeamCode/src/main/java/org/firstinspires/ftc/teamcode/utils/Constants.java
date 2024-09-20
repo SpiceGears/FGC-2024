@@ -8,6 +8,7 @@ public class Constants {
     @Config
     public static class Elevator {
         public static int elevatorAutoSpeed = 1;
+        public static int maxPosition = 8900;
 
         public static int elevatorFirstLevel = 1000;
         public static int elevatorSecondLevel = 2000;
