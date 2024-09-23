@@ -6,21 +6,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.Balance;
 import org.firstinspires.ftc.teamcode.subsystems.Bucket;
-import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
 import org.firstinspires.ftc.teamcode.subsystems.Logs;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.ElevatorMode;
 
 @TeleOp(name="RobotAteny", group="Linear Opmode")
-public class RobotAteny extends LinearOpMode {
+public class RiceeTeleOp extends LinearOpMode {
 
-    private final Drivetrain drivetrain = new Drivetrain(this);
+    private final Drive drivetrain = new Drive(this);
     private final Elevator elevator = new Elevator(this);
-    private final Logs log = new Logs(telemetry);
     private final Bucket bucket = new Bucket(this);
+    private final Balance balance = new Balance(this);
+    private final Logs log = new Logs(telemetry);
     private final ElapsedTime runtime = new ElapsedTime();
-    private final Balance balance = new Balance();
 
     @Override
     public void runOpMode() {
@@ -35,7 +35,6 @@ public class RobotAteny extends LinearOpMode {
         runtime.reset();
 
         bucket.setIsStarting(true);
-
 
         while(opModeIsActive()) {
 
@@ -62,7 +61,7 @@ public class RobotAteny extends LinearOpMode {
             // auto control
             if(elevator.getMode() == ElevatorMode.AUTO) {
 
-                if(gamepad2.ps){ //home
+                if(gamepad2.ps){
                     elevator.setPosition(0);
                 }
                 if(gamepad2.cross) {
@@ -93,9 +92,8 @@ public class RobotAteny extends LinearOpMode {
                 elevator.setMode(ElevatorMode.MANUAL);
             }
 
-
-            elevator.checkIsInTolerance();
-
+            elevator.checkSensors();
+            elevator.checkPositions();
 
             if(gamepad1.right_trigger > 0.2 || gamepad2.right_trigger > 0.2) {
                 bucket.setMotorPower(-1.0);
@@ -127,12 +125,14 @@ public class RobotAteny extends LinearOpMode {
 
             // BALANCE SUBSYSTEM //
 
+            //VALUES TO FINE-TUNE
+
             //switching balance
             if(gamepad2.dpad_left) {
-                balance.setServoPower(1.0);
+                balance.openBalance();
             }
              else if(gamepad2.dpad_right) {
-                balance.setServoPower(-1.0);
+                balance.closeBalance();
             }
 
 
@@ -143,9 +143,8 @@ public class RobotAteny extends LinearOpMode {
     }
 
     void sendTelemetry() {
-        log.addLine("Starting Mode", bucket.isStartingMode());
-        log.addLine("Robot Velocity (m/s)", Math.round(drivetrain.getCurrentVelocity(runtime.seconds()) * 100.0) / 100.0, true);
         log.addLine("Runtime", runtime.seconds(), true);
+        log.addLine("Starting Mode", bucket.isStartingMode());
         log.addLine("ElevatorLeftPosition", elevator.getLeftPosition(), Constants.Logs.showElevatorPositions);
         log.addLine("ElevatorRightPosition", elevator.getRightPosition(), Constants.Logs.showElevatorPositions);
         log.addLine("ElevatorLeftSensor", elevator.getLeftTouchState(), Constants.Logs.showElevatorSensors);
@@ -156,8 +155,10 @@ public class RobotAteny extends LinearOpMode {
 
         log.addLine("DriveLeftPower", drivetrain.getLeftPower(), Constants.Logs.showDrivetrainMotorPower);
         log.addLine("DriveRightPower", drivetrain.getRightPower(), Constants.Logs.showDrivetrainMotorPower);
-
         log.addLine("DriveSpeedModifier", drivetrain.getSpeedModifier(), Constants.Logs.showSpeedModifier);
+
+        log.addLine("BucketLeftPower", bucket.getLeftPower(), Constants.Logs.showIntakeMotorPower);
+        log.addLine("BucketRightPower", bucket.getRightPower(), Constants.Logs.showIntakeMotorPower);
 
         log.addLine("BatteryVoltage", hardwareMap.voltageSensor.iterator().next().getVoltage(),
                 Constants.Logs.showBatteryVoltage);
