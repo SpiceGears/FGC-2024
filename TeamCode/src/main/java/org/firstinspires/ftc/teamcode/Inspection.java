@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bucket;
-import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
 import org.firstinspires.ftc.teamcode.subsystems.Logs;
 import org.firstinspires.ftc.teamcode.utils.ElevatorMode;
@@ -15,7 +15,7 @@ public class Inspection extends LinearOpMode {
 
     private final ElapsedTime runtime = new ElapsedTime();
     private final Logs logs = new Logs(telemetry);
-    private final Drivetrain drivetrain = new Drivetrain(this);
+    private final Drive drivetrain = new Drive(this);
     private final Elevator elevator = new Elevator(this);
     private final Bucket bucket = new Bucket(this);
 

@@ -48,7 +48,6 @@ public class Elevator {
         leftElevator.setTargetPosition(position);
         rightElevator.setTargetPosition(position);
         setMode(ElevatorMode.AUTO);
-        //setPower(Constants.elevatorAutoSpeed);
     }
 
     public void setManualPower(double left) {
@@ -61,14 +60,6 @@ public class Elevator {
 
     public void setPower(double power) {
         leftElevator.setPower(power);
-        rightElevator.setPower(power);
-    }
-
-    public void setLeftPower(double power) {
-        leftElevator.setPower(power);
-    }
-
-    public void setRightPower(double power) {
         rightElevator.setPower(power);
     }
 
@@ -96,36 +87,18 @@ public class Elevator {
         leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public  void checkSensors(){
-        if(mode == ElevatorMode.MANUAL) return;
-        if (leftTouch.isPressed()){
-            leftElevator.setPower(0);
-            leftElevator.setMotorDisable();
+    public  void checkSensors() {
+        if (mode == ElevatorMode.MANUAL) return;
+        if (leftTouch.isPressed()) {
             leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
-        if (rightTouch.isPressed()){
-            rightElevator.setPower(0);
-            rightElevator.setMotorDisable();
-            rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
-
-    }
-    public void setLimit() {
-        if(mode == ElevatorMode.MANUAL) return;
-        if(leftElevator.getCurrentPosition() == Constants.Elevator.maxPosition) {
-            leftElevator.setPower(0);
-            leftElevator.setMotorDisable();
-            leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
-        if(rightElevator.getCurrentPosition() == Constants.Elevator.maxPosition) {
-            rightElevator.setPower(0);
-            rightElevator.setMotorDisable();
+        if (rightTouch.isPressed()) {
             rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
     }
 
-    public void checkIsInTolerance() {
+    public void checkPositions() {
         if(mode == ElevatorMode.MANUAL) {
             if(leftElevator.getCurrentPosition() >= Constants.Elevator.maxPosition || rightElevator.getCurrentPosition() >= Constants.Elevator.maxPosition) {
                 leftElevator.setPower(0);
@@ -133,20 +106,16 @@ public class Elevator {
             }
         } else {
             if(Math.abs(leftElevator.getTargetPosition() - leftElevator.getCurrentPosition()) <= 20 && leftElevator.getTargetPosition() != leftElevator.getCurrentPosition()) {
-                //leftElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 setMode(ElevatorMode.MANUAL);
             }
             if(Math.abs(rightElevator.getTargetPosition() - rightElevator.getCurrentPosition()) <= 20 && rightElevator.getTargetPosition() != rightElevator.getCurrentPosition()) {
-                //rightElevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 setMode(ElevatorMode.MANUAL);
             }
         }
     }
-    public boolean getLeftTouchState(){
-        return leftTouch.isPressed();
-    } // todo
+    public boolean getLeftTouchState(){ return leftTouch.isPressed(); }
 
-    public  boolean getRightTouchState(){return rightTouch.isPressed();} //todo
+    public  boolean getRightTouchState(){ return rightTouch.isPressed(); }
 
     public String getMotors(){
         return leftElevator.isBusy() + " | " + rightElevator.isBusy() + " | " + leftElevator.getCurrent(CurrentUnit.AMPS) + " | "+ rightElevator.getCurrent(CurrentUnit.AMPS);
