@@ -1,27 +1,33 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.RiceeTeleOp;
+import org.firstinspires.ftc.teamcode.utils.Constants;
 
 public class Balance {
-    private LinearOpMode opMode;
-    private CRServo leftServoBalance;
-    private CRServo rightServoBalance;
+    private final LinearOpMode opMode;
+    private Servo leftServoBalance;
+    private Servo rightServoBalance;
 
-    public Balance() { this.opMode = opMode;}
+    public Balance(LinearOpMode opMode) { this.opMode = opMode; }
 
     public void init() {
-        leftServoBalance = opMode.hardwareMap.get(CRServo.class, "leftServoBalance");
-        rightServoBalance = opMode.hardwareMap.get(CRServo.class, "rightServoBalance");
-
-        leftServoBalance.setDirection(CRServo.Direction.REVERSE);
-        rightServoBalance.setDirection(CRServo.Direction.FORWARD);
-
-        boolean isStarting = false;
+        leftServoBalance = opMode.hardwareMap.get(Servo.class, "leftServoBalance");
+        rightServoBalance = opMode.hardwareMap.get(Servo.class, "rightServoBalance");
     }
-    public void setServoPower(double power) {
-        leftServoBalance.setPower(power);
-        rightServoBalance.setPower(power);
+
+    public void openBalance() {
+        leftServoBalance.setPosition(Constants.Balance.openLeftPosition);
+        rightServoBalance.setPosition(Constants.Balance.openRightPosition);
+    }
+
+    public void closeBalance() {
+        leftServoBalance.setPosition(Constants.Balance.closeLeftPosition);
+        rightServoBalance.setPosition(Constants.Balance.closeRightPosition);
     }
 
 }

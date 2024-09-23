@@ -19,14 +19,7 @@ public class Constants {
     // DRIVETRAIN
     @Config
     public static class Drivetrain {
-        public static double maxDriveSpeed = 1.0; // < 0.1 ; 1.0 >
-        public static double accelerationCoefficient = 0.2;
-        public static double decelerationCoefficient = 0.2;
 
-        static double gearbox = 3 * 5;
-        static double distance = 100; // 1 meter
-        static double wheelPerimeter = 9;
-        public static double meterTicks = (4 * gearbox * distance) / wheelPerimeter;
     }
 
     // LOGS
@@ -37,11 +30,19 @@ public class Constants {
         public static boolean showElevatorMode = true;
         public static boolean showElevatorMotorPower = true;
         public static boolean showElevatorMotorModes = true;
-
         public static boolean showSpeedModifier = true;
         public static boolean showDrivetrainMotorPower = true;
-
         public static boolean showBatteryVoltage = true;
+
+        public static boolean showIntakeMotorPower = true;
+    }
+
+    @Config
+    public static class Balance {
+        public static double closeLeftPosition = 0.3;
+        public static double closeRightPosition = 0.3;
+        public static double openLeftPosition = 0.3;
+        public static double openRightPosition = 0.3;
     }
 
 }
