@@ -39,10 +39,10 @@ public class Constants {
 
     @Config
     public static class Balance {
-        public static double closeLeftPosition = 0.3;
-        public static double closeRightPosition = 0.3;
-        public static double openLeftPosition = 0.3;
-        public static double openRightPosition = 0.3;
+        public static double closeLeftPosition = 0;
+        public static double closeRightPosition = 0.5;
+        public static double openLeftPosition = 1;
+        public static double openRightPosition = -1;
     }
 
 }

@@ -30,6 +30,7 @@ public class RiceeTeleOp extends LinearOpMode {
         elevator.init();
         log.init();
         bucket.init();
+        balance.init();
 
         waitForStart();
         runtime.reset();
@@ -143,6 +144,7 @@ public class RiceeTeleOp extends LinearOpMode {
     }
 
     void sendTelemetry() {
+        log.addLine("Servo", balance.getPositions(), true);
         log.addLine("Runtime", runtime.seconds(), true);
         log.addLine("Starting Mode", bucket.isStartingMode());
         log.addLine("ElevatorLeftPosition", elevator.getLeftPosition(), Constants.Logs.showElevatorPositions);
@@ -151,7 +153,7 @@ public class RiceeTeleOp extends LinearOpMode {
         log.addLine("ElevatorRightSensor", elevator.getRightTouchState(), Constants.Logs.showElevatorSensors);
         log.addLine("ElevatorMode", elevator.getMode(), Constants.Logs.showElevatorMode);
         log.addLine("ElevatorMotorModes", elevator.getMotorsMode(), Constants.Logs.showElevatorMotorModes);
-        log.addLine("ElevatorMotorState", elevator.getMotors(), Constants.Logs.showElevatorMotorPower);
+//        log.addLine("ElevatorMotorState", elevator.getMotors(), Constants.Logs.showElevatorMotorPower);
 
         log.addLine("DriveLeftPower", drivetrain.getLeftPower(), Constants.Logs.showDrivetrainMotorPower);
         log.addLine("DriveRightPower", drivetrain.getRightPower(), Constants.Logs.showDrivetrainMotorPower);

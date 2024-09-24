@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.utils.ElevatorMode;
 public class Elevator {
 
     private final LinearOpMode opMode;
-    private DcMotorEx leftElevator;
-    private DcMotorEx rightElevator;
+    private DcMotor leftElevator;
+    private DcMotor rightElevator;
     private ElevatorMode mode;
     private TouchSensor leftTouch;
     private TouchSensor rightTouch;
@@ -25,8 +25,8 @@ public class Elevator {
 
     public void init() {
         // MOTORS SETUP //
-        leftElevator = opMode.hardwareMap.get(DcMotorEx.class, "leftElevator");
-        rightElevator = opMode.hardwareMap.get(DcMotorEx.class, "rightElevator");
+        leftElevator = opMode.hardwareMap.get(DcMotor.class, "leftElevator");
+        rightElevator = opMode.hardwareMap.get(DcMotor.class, "rightElevator");
         leftTouch = opMode.hardwareMap.get(TouchSensor.class, "leftTouch");
         rightTouch = opMode.hardwareMap.get(TouchSensor.class, "rightTouch");
 
@@ -117,9 +117,9 @@ public class Elevator {
 
     public  boolean getRightTouchState(){ return rightTouch.isPressed(); }
 
-    public String getMotors(){
-        return leftElevator.isBusy() + " | " + rightElevator.isBusy() + " | " + leftElevator.getCurrent(CurrentUnit.AMPS) + " | "+ rightElevator.getCurrent(CurrentUnit.AMPS);
-    }
+//    public String getMotors(){
+//        return leftElevator.isBusy() + " | " + rightElevator.isBusy() + " | " + leftElevator.getCurrent(CurrentUnit.AMPS) + " | "+ rightElevator.getCurrent(CurrentUnit.AMPS);
+//    }
 
     public String getMotorsMode() {
         return leftElevator.getMode() + " | " + rightElevator.getMode();
