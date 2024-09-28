@@ -18,6 +18,8 @@ public class Elevator {
     private ElevatorMode mode;
     private TouchSensor leftTouch;
     private TouchSensor rightTouch;
+    private boolean leftState;
+    private boolean rightState;
 
     public Elevator(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -41,6 +43,9 @@ public class Elevator {
 
         // MODE SETUP //
         mode = ElevatorMode.MANUAL;
+
+        leftState = false;
+        rightState = false;
 
     }
 
@@ -89,11 +94,13 @@ public class Elevator {
     }
     public  void checkSensors() {
         if (mode == ElevatorMode.MANUAL) return;
-        if (leftTouch.isPressed()) {
+        if (leftTouch.isPressed() && !leftState) {
             leftElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftState = false;
         }
-        if (rightTouch.isPressed()) {
+        if (rightTouch.isPressed() && !rightState) {
             rightElevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightState = false;
         }
 
     }

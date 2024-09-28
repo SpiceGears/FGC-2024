@@ -106,17 +106,17 @@ public class RiceeTeleOp extends LinearOpMode {
             }
 
             if(bucket.isStartingMode()) {
-                if(runtime.seconds() < 4.0) {
-                    //bucket.setServoPower(1.0); //dziala
+                if(runtime.seconds() < 9.0) {
+                    bucket.setServoPower(1.0); //dziala
                 } else {
                     bucket.setServoPower(0);
                     bucket.setIsStarting(false);
                 }
             } else {
-                if(gamepad1.triangle || gamepad2.dpad_up) {
+                if(gamepad1.dpad_up || gamepad2.dpad_up) {
                     bucket.setServoPower(1.0);
                 }
-                else if(gamepad1.cross || gamepad2.dpad_down) {
+                else if(gamepad1.dpad_down || gamepad2.dpad_down) {
                     bucket.setServoPower(-1.0);
                 }
                 else {

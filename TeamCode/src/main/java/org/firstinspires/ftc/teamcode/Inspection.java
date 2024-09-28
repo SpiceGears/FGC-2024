@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.subsystems.Balance;
 import org.firstinspires.ftc.teamcode.subsystems.Bucket;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Elevator;
@@ -18,6 +19,7 @@ public class Inspection extends LinearOpMode {
     private final Drive drivetrain = new Drive(this);
     private final Elevator elevator = new Elevator(this);
     private final Bucket bucket = new Bucket(this);
+    private final Balance balance = new Balance(this);
 
     @Override
     public void runOpMode() {
@@ -27,6 +29,7 @@ public class Inspection extends LinearOpMode {
         elevator.init();
         elevator.setMode(ElevatorMode.MANUAL);
         bucket.init();
+        balance.init();
 
         waitForStart();
         runtime.reset();
@@ -46,13 +49,13 @@ public class Inspection extends LinearOpMode {
             sendLog("Click button A");
 
             waitForButton("A");
-            execute(this::elevatorUp, 1);
+            execute(this::elevatorUp, 4);
             elevatorStop();
 
             sendLog("Click button B");
 
             waitForButton("B");
-            execute(this::elevatorDown, 1);
+            execute(this::elevatorDown, 4);
             elevatorStop();
 
             sendLog("Click button A");
@@ -66,6 +69,16 @@ public class Inspection extends LinearOpMode {
             waitForButton("B");
             execute(this::intakeBall, 2);
             stopIntake();
+
+            sendLog("Click button A");
+
+            waitForButton("A");
+            openBalance();
+
+            sendLog("Click button B");
+
+            waitForButton("B");
+            closeBalance();
 
             sleep(1000);
         }
@@ -122,4 +135,6 @@ public class Inspection extends LinearOpMode {
     private void stopIntake() {
         bucket.setMotorPower(0);
     }
+    private void openBalance() { balance.openBalance(); }
+    private void closeBalance() { balance.closeBalance(); }
 }
