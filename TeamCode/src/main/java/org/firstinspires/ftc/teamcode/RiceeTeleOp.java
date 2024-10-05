@@ -124,6 +124,10 @@ public class RiceeTeleOp extends LinearOpMode {
                 }
             }
 
+            if(gamepad1.ps) {
+                bucket.setIsStarting(false);
+            }
+
             // BALANCE SUBSYSTEM //
 
             //VALUES TO FINE-TUNE
